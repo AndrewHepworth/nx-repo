@@ -1,0 +1,6 @@
+vite.config.*.timestamp*
+
+.nx
+node_modules
+
+dist
