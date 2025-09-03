@@ -1,0 +1,9 @@
+{
+  "name": "food-pages",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/food-pages/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project food-pages --web",
+  "targets": {}
+}
