@@ -1,15 +1,28 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.css';
-
 import NxWelcome from './nx-welcome';
-
 import { useState } from 'react';
 
-function MyButton () {
-  
-  return (
-    <button> I'm a button </button>
-  );
+
+function calculateWinner( squares: Array<number> ) {
+    const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+   ]
+
+  for (let i = 0; i < lines.length; i++ ) {
+    const [a, b, c] = lines[i]
+    if (squares.at(a) && squares.at(a) === squares.at(b) && squares.at(a) === squares.at(a) && squares.at(c) ) {
+      return squares.at(a)
+    }
+  }
+  return null
 }
 
 function Square ({ value, onSquareClick, index }: any)  { 
@@ -36,7 +49,7 @@ function Board () {
   const [squares, setSquares] = useState(Array(9).fill(''))
 
   function handleClick (i:  number) {
-    if ( squares.at(i) !== '' ) {
+    if ( squares.at(i) !== '' || calculateWinner(squares) ) {
       return;
     }
     const nextSquares = squares.slice()
