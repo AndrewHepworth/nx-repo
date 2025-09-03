@@ -47,6 +47,13 @@ function BoardRow ({ value1, value2, value3, callback, index}: any) {
 function Board () { 
   const [isXnext, setIsXnext] = useState(true)
   const [squares, setSquares] = useState(Array(9).fill(''))
+  const winner = calculateWinner(squares)
+  let status;
+  if (winner) {
+    status = `Winner: ${winner} `
+  } else {
+    status = `Next player: ${(isXnext? 'X' : 'O') } `
+  }
 
   function handleClick (i:  number) {
     if ( squares.at(i) !== '' || calculateWinner(squares) ) {
@@ -59,11 +66,14 @@ function Board () {
     setIsXnext(!isXnext)
   }
   return (
-    <div>
-      <BoardRow value1={squares.at(0)} value2={squares.at(1)} value3={squares.at(2)} callback={handleClick} index={0} />
-      <BoardRow value1={squares.at(3)} value2={squares.at(4)} value3={squares.at(5)} callback={handleClick} index={3} />
-      <BoardRow value1={squares.at(6)} value2={squares.at(7)} value3={squares.at(8)} callback={handleClick} index={6} />
-    </div>
+    <>
+      <div className='status' >{status} </div>
+      <div>
+        <BoardRow value1={squares.at(0)} value2={squares.at(1)} value3={squares.at(2)} callback={handleClick} index={0} />
+        <BoardRow value1={squares.at(3)} value2={squares.at(4)} value3={squares.at(5)} callback={handleClick} index={3} />
+        <BoardRow value1={squares.at(6)} value2={squares.at(7)} value3={squares.at(8)} callback={handleClick} index={6} />
+      </div>
+    </>
   );
 
 }
