@@ -55,13 +55,9 @@ function ProductTable ({ data } ) {
       rows.push( <ProductCategoryRow  category={element.category} />)
       lastCategory = element.category
     }
-    if ( element.stocked ) {
-      colour = 'black-text'
-    } else {
-      colour = 'red-text'
-    }
+
     rows.push(  
-      <ProductRow name={element.name} price={element.price} colour={colour} />
+      <ProductRow product={element} />
     )
   });
 
@@ -85,19 +81,15 @@ function ProductCategoryRow ({ category } : any) {
   )
 }
 
-//function ProductRow ({product}) {
-//
-//
-//}
-
-function ProductRow ({ name, price, colour } : any) {
-
+function ProductRow ({product}) {
+  let colour = product.stocked ? 'black-text': 'red-text'
   return ( 
     <tr> 
-      <th className={colour} >{name} </th>
-      <th>{price} </th>
+      <th className={colour} >{product.name} </th>
+      <th>{product.price} </th>
     </tr> 
   )
+
 }
 
 export function App() {
