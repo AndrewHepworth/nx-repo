@@ -49,13 +49,19 @@ function SearchBar () {
 function ProductTable ({ data } ) {
   let rows: any[] = [];
   let lastCategory = null
+  let colour = 'black'
   data.forEach(element => {
     if ( element.category !== lastCategory ) {
       rows.push( <ProductCategoryRow  category={element.category} />)
       lastCategory = element.category
     }
+    if ( element.stocked ) {
+      colour = 'black-text'
+    } else {
+      colour = 'red-text'
+    }
     rows.push(  
-      <ProductRow name={element.name} price={element.price} />
+      <ProductRow name={element.name} price={element.price} colour={colour} />
     )
   });
 
@@ -79,12 +85,16 @@ function ProductCategoryRow ({ category } : any) {
   )
 }
 
+//function ProductRow ({product}) {
+//
+//
+//}
 
-function ProductRow ({ name, price } : any) {
+function ProductRow ({ name, price, colour } : any) {
 
   return ( 
     <tr> 
-      <th>{name} </th>
+      <th className={colour} >{name} </th>
       <th>{price} </th>
     </tr> 
   )
