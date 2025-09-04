@@ -1,4 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useState } from 'react';
 import styles from './app.module.css';
 
 import NxWelcome from './nx-welcome';
@@ -13,11 +14,13 @@ const dataSet = [
 ]
 
 function FilterableProductTable ({ data }: any) {
+  const [filterText, setFilterText] = useState('')
+  const [inStockOnly, setInStockOnly] = useState(false)
 
   return ( 
     <>
       <div>
-        <SearchBar />
+        <SearchBar filterText={filterText} inStockOnly={inStockOnly} setInStockOnly={setInStockOnly} />
         <div> </div>
         <ProductTable data={data}/>
       </div>
@@ -27,19 +30,21 @@ function FilterableProductTable ({ data }: any) {
 }
 
 
-function SearchBar () {
+function SearchBar ({ filterText, inStockOnly, setInStockOnly}) {
+  const toggled = inStockOnly ? 'on' : 'off'
+  const text = filterText === '' ? 'Search...' : filterText
 
   return (
     <>
       <div>
         <search>
           <form>
-            <input placeholder='Search...' /> 
+            <input placeholder={text} /> 
           </form>
         </search>
       </div>
       <div> 
-        <input type='radio' /> 
+        <input type='radio' value={toggled} onClick={() => setInStockOnly(!inStockOnly)} /> 
         Only show products in stock
       </div>
     </>
@@ -49,7 +54,6 @@ function SearchBar () {
 function ProductTable ({ data } ) {
   let rows: any[] = [];
   let lastCategory = null
-  let colour = 'black'
   data.forEach(element => {
     if ( element.category !== lastCategory ) {
       rows.push( <ProductCategoryRow  category={element.category} />)
