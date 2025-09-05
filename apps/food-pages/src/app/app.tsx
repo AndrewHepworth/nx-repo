@@ -20,9 +20,9 @@ function FilterableProductTable ({ data }: any) {
   return ( 
     <>
       <div>
-        <SearchBar filterText={filterText} inStockOnly={inStockOnly} setInStockOnly={setInStockOnly} />
+        <SearchBar filterText={filterText} inStockOnly={inStockOnly} onFilterTextChange={setFilterText} onStockOnlyChange={setInStockOnly} />
         <div> </div>
-        <ProductTable data={data}/>
+        <ProductTable data={data} filterText={filterText} inStockOnly={inStockOnly}/>
       </div>
     </>
   )
@@ -30,7 +30,7 @@ function FilterableProductTable ({ data }: any) {
 }
 
 
-function SearchBar ({ filterText, inStockOnly, setInStockOnly}) {
+function SearchBar ({ filterText, inStockOnly, onFilterTextChange, onStockOnlyChange}) {
   const toggled = inStockOnly ? 'on' : 'off'
   const text = filterText === '' ? 'Search...' : filterText
 
@@ -39,30 +39,38 @@ function SearchBar ({ filterText, inStockOnly, setInStockOnly}) {
       <div>
         <search>
           <form>
-            <input placeholder={text} /> 
+            <input type='text' placeholder={text} value={filterText} onChange={(e) => onFilterTextChange(e.target.value)} /> 
           </form>
         </search>
       </div>
       <div> 
-        <input type='radio' value={toggled} onClick={() => setInStockOnly(!inStockOnly)} /> 
+        <input type='checkbox' value={toggled} onChange={(e) => onStockOnlyChange(e.target.checked)} /> 
         Only show products in stock
       </div>
     </>
   )
 }
 
-function ProductTable ({ data } ) {
+function ProductTable ({ data, filterText, inStockOnly } ) {
   let rows: any[] = [];
   let lastCategory = null
   data.forEach(element => {
+    let showProductFromFilter = (filterText === '') || element.name.includes(filterText)  
     if ( element.category !== lastCategory ) {
       rows.push( <ProductCategoryRow  category={element.category} />)
       lastCategory = element.category
     }
+    let show = true
+    if ( inStockOnly ) {
+        show = element.stocked
+    }
 
-    rows.push(  
-      <ProductRow product={element} />
-    )
+    show = show && showProductFromFilter
+    if (show) {
+      rows.push(  
+        <ProductRow product={element} />
+      )
+    }
   });
 
   return (
