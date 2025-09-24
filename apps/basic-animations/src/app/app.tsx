@@ -5,8 +5,20 @@ import NxWelcome from './nx-welcome';
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="basic-animations" />
+    <div className={styles.wheel}>
+      <span className={styles.line}></span>
+      <span className={styles.line}></span>
+      <span className={styles.line}></span>
+      <span className={styles.line}></span>
+      <span className={styles.line}></span>
+      <span className={styles.line}></span>
+
+      <div className={styles.cabin}></div>
+      <div className={styles.cabin}></div>
+      <div className={styles.cabin}></div>
+      <div className={styles.cabin}></div>
+      <div className={styles.cabin}></div>
+      <div className={styles.cabin}></div>
     </div>
   );
 }
